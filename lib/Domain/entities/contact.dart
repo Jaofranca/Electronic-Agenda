@@ -2,7 +2,7 @@ import 'address.dart';
 
 class Contact {
   final String? name;
-  final String? cellPhoneNumber;
+  final List<String>? cellPhoneNumber;
   final String? email;
   final String? image;
   final Address? address;
