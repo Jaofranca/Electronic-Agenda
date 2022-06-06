@@ -1,14 +1,15 @@
 import '../../Domain/entities/contact.dart';
+import 'address_mapper.dart';
 
 class ContactMapper {
   static fromJson(Map<String, dynamic> json) {
     return Contact(
       name: json['name'],
-      cellPhoneNumber: json['cellPhoneNumeber'],
+      cellPhoneNumber: json['cellPhoneNumber'],
       email: json['email'],
       image: json['image'],
-      address: json['address'],
-      reminder: json['remionder'],
+      address: AddressMapper.fromJson(json['address']),
+      reminder: json['reminder'],
     );
   }
 
@@ -18,7 +19,7 @@ class ContactMapper {
       'cellPhoneNumber': contact.cellPhoneNumber,
       'email': contact.email,
       'image': contact.image,
-      'address': contact.address,
+      'address': AddressMapper.toJson(contact.address!),
       'reminder': contact.reminder
     };
   }

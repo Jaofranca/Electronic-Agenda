@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import 'address.dart';
 
 class Contact {
