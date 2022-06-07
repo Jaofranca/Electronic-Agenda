@@ -5,6 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'app_module.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   runApp(

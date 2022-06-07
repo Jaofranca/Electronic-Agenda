@@ -1,12 +1,37 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:agenda_eletronica/Modules/Home/Presentation/pages/contacts_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    return FutureBuilder(
+      future: Hive.openBox('contacts'),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else {
+            return const ContactsScreen();
+          }
+        } else {
+          //TODO: criar tela de erro
+          return Container();
+        }
+      },
+    );
   }
 }

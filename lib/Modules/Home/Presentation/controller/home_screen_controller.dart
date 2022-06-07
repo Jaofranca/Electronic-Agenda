@@ -28,4 +28,10 @@ abstract class _HomeScreenControllerBase with Store {
       _setContacts(result);
     });
   }
+
+  @action
+  Future<void> addContact(Contact contact) async {
+    final usecase = await _addContactUseCase.call(contact);
+    return usecase.fold((failure) => throw failure, (result) {});
+  }
 }
