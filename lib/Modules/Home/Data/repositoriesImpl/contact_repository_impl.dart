@@ -14,7 +14,7 @@ class ContactRepositoryImplementation implements ContactRepository {
       final result = await localDatasource.addContact(contact);
       return right(result);
     } on CacheException {
-      return left(ServerFailure());
+      return left(CacheFailure());
     }
   }
 
@@ -24,7 +24,7 @@ class ContactRepositoryImplementation implements ContactRepository {
       final result = await localDatasource.deleteContact(contact);
       return right(result);
     } on CacheException {
-      return left(ServerFailure());
+      return left(CacheFailure());
     }
   }
 
@@ -33,8 +33,8 @@ class ContactRepositoryImplementation implements ContactRepository {
     try {
       final result = await localDatasource.getContacts();
       return right(result);
-    } on CacheException catch (e) {
-      return left(ServerFailure());
+    } on CacheException {
+      return left(CacheFailure());
     }
   }
 }

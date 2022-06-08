@@ -1,15 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
 import 'package:uuid/uuid.dart';
 
 import 'package:agenda_eletronica/Modules/Home/Domain/entities/address.dart';
 import 'package:agenda_eletronica/Modules/Home/Domain/entities/contact.dart';
 import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_arguments.dart';
 import 'package:agenda_eletronica/Modules/Home/Presentation/widgets/add_contact_text_field.dart';
+
+import '../../widgets/image_source_chooser.dart';
 
 class AddContactManuallyScreen extends StatefulWidget {
   final AddContactManuallyArguments args;
@@ -25,8 +27,10 @@ class AddContactManuallyScreen extends StatefulWidget {
 
 class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
   var uuid = const Uuid();
+  Uint8List? picture;
   late final TextEditingController nameController;
   late final TextEditingController emailController;
+  late final TextEditingController phoneController;
   late final TextEditingController zipCodeController;
   late final TextEditingController cityController;
   late final TextEditingController stateController;
@@ -49,7 +53,7 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
   void _closeForm() {
     nameController.dispose();
     emailController.dispose();
-    //PhoneController
+    phoneController.dispose();
     zipCodeController.dispose();
     cityController.dispose();
     stateController.dispose();
@@ -60,6 +64,8 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
   void _initializeForm() {
     nameController = TextEditingController(text: widget.args.contact?.name);
     emailController = TextEditingController(text: widget.args.contact?.email);
+    phoneController =
+        TextEditingController(text: widget.args.contact?.cellPhoneNumber[0]);
     zipCodeController =
         TextEditingController(text: widget.args.contact?.address.zipCode);
     cityController =
@@ -72,11 +78,16 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
         TextEditingController(text: widget.args.contact?.address.streetNumber);
     complementoController =
         TextEditingController(text: widget.args.contact?.address.complemento);
+
+    if (widget.args.contact?.image != null) {
+      setState(() {
+        picture = widget.args.contact!.image;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // List stuff = image.toByteData().buffer.asUInt8List()
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -91,18 +102,31 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
         ),
         body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Material(
-                child: InkWell(
-                  onTap: () async {
-                    final ImagePicker picker = ImagePicker();
-                    final XFile? photo =
-                        await picker.pickImage(source: ImageSource.camera);
-                  },
-                  child: const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.red,
-                  ),
+              GestureDetector(
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const ImageSourceChooser();
+                      }).then((value) {
+                    setState(() {
+                      picture = value;
+                    });
+                  });
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.red,
+                      backgroundImage:
+                          picture == null ? null : MemoryImage(picture!),
+                    ),
+                    const Icon(Icons.add),
+                  ],
                 ),
               ),
 
@@ -110,8 +134,18 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
                   textController: nameController, hintText: 'name'),
               AddContactTextField(
                   textController: emailController, hintText: 'email'),
-              AddContactTextField(
-                  textController: zipCodeController, hintText: 'Zip Code'),
+              AddContactTextField(formatter: [
+                MaskTextInputFormatter(
+                  mask: '(##) # ####-####',
+                  filter: {'#': RegExp(r'[0-9]')},
+                )
+              ], textController: phoneController, hintText: 'cellPhone Number'),
+              AddContactTextField(formatter: [
+                MaskTextInputFormatter(
+                  mask: '##.###-###',
+                  filter: {'#': RegExp(r'[0-9]')},
+                )
+              ], textController: zipCodeController, hintText: 'Zip Code'),
               AddContactTextField(
                   textController: cityController, hintText: 'City'),
               AddContactTextField(
@@ -137,9 +171,9 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
                 onPressed: () async {
                   final pageContact = Contact(
                       name: nameController.text,
-                      cellPhoneNumber: ['123456789'],
+                      cellPhoneNumber: [phoneController.text],
                       email: emailController.text,
-                      image: Uint8List.fromList([0]),
+                      image: picture,
                       address: Address(
                         zipCode: zipCodeController.text,
                         city: cityController.text,

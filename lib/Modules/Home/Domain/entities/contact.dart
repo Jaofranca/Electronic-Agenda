@@ -5,7 +5,7 @@ class Contact {
   final String name;
   final List<String> cellPhoneNumber;
   final String email;
-  final Uint8List image;
+  final Uint8List? image;
   final Address address;
   final DateTime reminder;
   final String id;

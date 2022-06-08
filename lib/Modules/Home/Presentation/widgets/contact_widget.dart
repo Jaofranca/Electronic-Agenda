@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 import 'package:agenda_eletronica/Modules/Home/Domain/entities/contact.dart';
@@ -17,8 +19,13 @@ class ContactWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.red,
+          backgroundImage:
+              contact.image == null ? null : MemoryImage(contact.image!),
+        ),
         title: Text(contact.name),
-        subtitle: Text(contact.email + contact.cellPhoneNumber[0]),
+        subtitle: Text(contact.cellPhoneNumber[0]),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -14,7 +14,7 @@ class AddressMapper {
     };
   }
 
-  static fromMap(Map<String, dynamic> map) {
+  static fromMap(Map<dynamic, dynamic> map) {
     return Address(
       zipCode: map['zipCode'] as String,
       city: map['city'] as String,

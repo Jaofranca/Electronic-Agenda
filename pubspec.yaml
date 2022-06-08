@@ -21,7 +21,7 @@ dependencies:
   flutter_modular: any
   uuid: ^3.0.6
   image_picker: any
-
+  mask_text_input_formatter: any
   
 
 dev_dependencies:
