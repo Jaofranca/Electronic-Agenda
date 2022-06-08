@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import '../../Core/errors/exceptions.dart';
 import '../../Domain/entities/contact.dart';
 import '../mappers/contact_mapper.dart';

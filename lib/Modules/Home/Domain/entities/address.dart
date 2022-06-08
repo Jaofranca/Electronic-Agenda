@@ -1,10 +1,10 @@
 class Address {
-  final String? zipCode;
-  final String? city;
-  final String? stateCode;
-  final String? neighborhood;
-  final String? streetNumber;
-  final String? complemento;
+  final String zipCode;
+  final String city;
+  final String stateCode;
+  final String neighborhood;
+  final String streetNumber;
+  final String complemento;
 
   const Address({
     required this.zipCode,

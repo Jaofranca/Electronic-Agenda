@@ -1,6 +1,7 @@
-import 'package:agenda_eletronica/Modules/Home/Presentation/pages/contacts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
+import 'contacts_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
             return const ContactsScreen();
           }
         } else {
-          //TODO: criar tela de erro
           return Container();
         }
       },

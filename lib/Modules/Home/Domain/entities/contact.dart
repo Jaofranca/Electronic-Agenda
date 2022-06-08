@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'address.dart';
 
 class Contact {
@@ -6,7 +7,7 @@ class Contact {
   final List<String> cellPhoneNumber;
   final String email;
   final Uint8List? image;
-  final Address address;
+  final Address? address;
   final DateTime reminder;
   final String id;
 

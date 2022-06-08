@@ -1,9 +1,9 @@
-import 'package:agenda_eletronica/Modules/Home/Domain/entities/contact.dart';
-import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/add_contact_usecase.dart';
-import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/get_contact_usecase.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../Domain/entities/contact.dart';
+import '../../Domain/usecases/contact/add_contact_usecase.dart';
 import '../../Domain/usecases/contact/delete_contact_usecase.dart';
+import '../../Domain/usecases/contact/get_contact_usecase.dart';
 
 part 'home_screen_controller.g.dart';
 

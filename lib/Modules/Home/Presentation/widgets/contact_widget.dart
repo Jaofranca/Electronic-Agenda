@@ -1,9 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-
-import 'package:agenda_eletronica/Modules/Home/Domain/entities/contact.dart';
+import '../../Domain/entities/contact.dart';
 
 class ContactWidget extends StatelessWidget {
   final Contact contact;

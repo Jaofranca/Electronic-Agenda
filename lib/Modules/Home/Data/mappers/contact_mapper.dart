@@ -11,7 +11,9 @@ class ContactMapper {
       'cellPhoneNumber': contact.cellPhoneNumber,
       'email': contact.email,
       'image': contact.image?.toList(),
-      'address': AddressMapper.toMap(contact.address),
+      if (contact.address != null) ...{
+        'address': AddressMapper.toMap(contact.address!),
+      },
       'reminder': contact.reminder.toIso8601String(),
       'id': contact.id,
     };
@@ -23,7 +25,9 @@ class ContactMapper {
       cellPhoneNumber:
           List<String>.from((map['cellPhoneNumber'] as List<String>)),
       email: map['email'] as String,
-      image: Uint8List.fromList(map['image'].cast<int>()),
+      image: map['image'] == null
+          ? null
+          : Uint8List.fromList(map['image'].cast<int>()),
       address: AddressMapper.fromMap(map['address'] as Map<dynamic, dynamic>),
       reminder: DateTime.parse(map['reminder']),
       id: map['id'] as String,

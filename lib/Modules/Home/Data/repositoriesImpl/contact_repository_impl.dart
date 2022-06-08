@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import '../../Core/errors/exceptions.dart';
 import '../../Core/errors/failures.dart';
 import '../../Domain/entities/contact.dart';

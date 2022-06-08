@@ -1,23 +1,21 @@
 import 'dart:typed_data';
 
+import 'package:agenda_eletronica/Modules/Home/Presentation/Pages/add_contact_screen/add_contacts_manually_arguments.dart';
+import 'package:agenda_eletronica/Modules/Home/Presentation/widgets/add_contact_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-
 import 'package:uuid/uuid.dart';
 
-import 'package:agenda_eletronica/Modules/Home/Domain/entities/address.dart';
-import 'package:agenda_eletronica/Modules/Home/Domain/entities/contact.dart';
-import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_arguments.dart';
-import 'package:agenda_eletronica/Modules/Home/Presentation/widgets/add_contact_text_field.dart';
-
+import '../../../Domain/entities/address.dart';
+import '../../../Domain/entities/contact.dart';
 import '../../widgets/image_source_chooser.dart';
 
 class AddContactManuallyScreen extends StatefulWidget {
-  final AddContactManuallyArguments args;
+  final AddContactsManuallyArguments args;
   const AddContactManuallyScreen({
-    Key? key,
     required this.args,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -67,17 +65,17 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
     phoneController =
         TextEditingController(text: widget.args.contact?.cellPhoneNumber[0]);
     zipCodeController =
-        TextEditingController(text: widget.args.contact?.address.zipCode);
+        TextEditingController(text: widget.args.contact?.address?.zipCode);
     cityController =
-        TextEditingController(text: widget.args.contact?.address.city);
+        TextEditingController(text: widget.args.contact?.address?.city);
     stateController =
-        TextEditingController(text: widget.args.contact?.address.stateCode);
+        TextEditingController(text: widget.args.contact?.address?.stateCode);
     logradouroController =
-        TextEditingController(text: widget.args.contact?.address.neighborhood);
+        TextEditingController(text: widget.args.contact?.address?.neighborhood);
     streetNumberController =
-        TextEditingController(text: widget.args.contact?.address.streetNumber);
+        TextEditingController(text: widget.args.contact?.address?.streetNumber);
     complementoController =
-        TextEditingController(text: widget.args.contact?.address.complemento);
+        TextEditingController(text: widget.args.contact?.address?.complemento);
 
     if (widget.args.contact?.image != null) {
       setState(() {
@@ -129,7 +127,6 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
                   ],
                 ),
               ),
-
               AddContactTextField(
                   textController: nameController, hintText: 'name'),
               AddContactTextField(
@@ -153,20 +150,18 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
               AddContactTextField(
                   textController: logradouroController, hintText: 'Logradouro'),
               AddContactTextField(
-                  textController: streetNumberController, hintText: 'Number'),
+                textController: streetNumberController,
+                hintText: 'Number',
+                formatter: [
+                  MaskTextInputFormatter(
+                    mask: '####',
+                    filter: {'#': RegExp(r'[0-9]')},
+                  )
+                ],
+              ),
               AddContactTextField(
                   textController: complementoController,
                   hintText: 'Complemento'),
-              //TODO: Reminder
-              // ElevatedButton(
-              //     child: Text('Pick a date'),
-              //     onPressed: () {
-              //       showDatePicker(
-              //           context: context,
-              //           initialDate: DateTime.now(),
-              //           firstDate: DateTime(2001),
-              //           lastDate: DateTime(2021));
-              //     }),
               ElevatedButton.icon(
                 onPressed: () async {
                   final pageContact = Contact(
