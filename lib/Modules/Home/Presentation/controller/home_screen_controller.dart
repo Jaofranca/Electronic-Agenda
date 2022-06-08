@@ -32,6 +32,8 @@ abstract class _HomeScreenControllerBase with Store {
   @action
   Future<void> addContact(Contact contact) async {
     final usecase = await _addContactUseCase.call(contact);
-    return usecase.fold((failure) => throw failure, (result) {});
+    return usecase.fold((failure) => throw failure, (result) {
+      getContacts();
+    });
   }
 }

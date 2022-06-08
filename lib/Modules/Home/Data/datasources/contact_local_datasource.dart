@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import '../../Core/errors/exceptions.dart';
 import '../../Domain/entities/contact.dart';
 import '../mappers/contact_mapper.dart';
@@ -10,11 +11,10 @@ abstract class ContactLocalDatasource {
   Future<Contact> modifyContact(Contact contact);
 }
 
-//TODO: fazer abstração do hive
 class ContactLocalDataSourceImplementation implements ContactLocalDatasource {
   @override
   Future<void> addContact(Contact contact) async {
-    await Hive.box('contacts').add(ContactMapper.toJson(contact));
+    await Hive.box('contacts').put(contact.id, ContactMapper.toMap(contact));
   }
 
   @override
@@ -30,7 +30,7 @@ class ContactLocalDataSourceImplementation implements ContactLocalDatasource {
       return List.from(
         contacts.map(
           (contact) {
-            return ContactMapper.fromJson(contact);
+            return ContactMapper.fromMap(contact);
           },
         ),
       );

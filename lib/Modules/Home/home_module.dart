@@ -1,7 +1,8 @@
 import 'package:agenda_eletronica/Modules/Home/Data/datasources/contact_local_datasource.dart';
 import 'package:agenda_eletronica/Modules/Home/Data/repositoriesImpl/contact_repository_impl.dart';
 import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/add_contact_usecase.dart';
-import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_manually_screen.dart';
+import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_arguments.dart';
+import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_manually_screen.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'Domain/usecases/contact/get_contact_usecase.dart';
 import 'Presentation/Pages/home_screen.dart';
@@ -26,11 +27,11 @@ class HomeModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (_, args) => const HomeScreen()),
-        ChildRoute('/addContactManually',
-            child: (_, args) => AddContactManuallyScreen(
-                  controller: args.data,
-                ))
-        // ChildRoute('/cardDetailPage',
-        //     child: (_, args) => CardDetail(model: args.data)),
+        ChildRoute(
+          '/addContactManually',
+          child: (_, args) => AddContactManuallyScreen(
+            args: args.data,
+          ),
+        )
       ];
 }
