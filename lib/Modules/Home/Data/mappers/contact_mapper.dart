@@ -17,7 +17,7 @@ class ContactMapper {
     };
   }
 
-  static fromMap(Map<String, dynamic> map) {
+  static fromMap(Map<dynamic, dynamic> map) {
     return Contact(
       name: map['name'] as String,
       cellPhoneNumber:

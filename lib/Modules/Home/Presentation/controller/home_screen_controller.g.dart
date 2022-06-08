@@ -33,6 +33,22 @@ mixin _$HomeScreenController on _HomeScreenControllerBase, Store {
     return _$getContactsAsyncAction.run(() => super.getContacts());
   }
 
+  late final _$addContactAsyncAction =
+      AsyncAction('_HomeScreenControllerBase.addContact', context: context);
+
+  @override
+  Future<void> addContact(Contact contact) {
+    return _$addContactAsyncAction.run(() => super.addContact(contact));
+  }
+
+  late final _$deleteContactAsyncAction =
+      AsyncAction('_HomeScreenControllerBase.deleteContact', context: context);
+
+  @override
+  Future<void> deleteContact(Contact contact) {
+    return _$deleteContactAsyncAction.run(() => super.deleteContact(contact));
+  }
+
   late final _$_HomeScreenControllerBaseActionController =
       ActionController(name: '_HomeScreenControllerBase', context: context);
 

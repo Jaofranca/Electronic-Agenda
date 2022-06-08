@@ -19,8 +19,8 @@ dependencies:
   flutter_mobx: any
   mobx_codegen: any
   flutter_modular: any
-  sqflite: ^2.0.2+1
   uuid: ^3.0.6
+  image_picker: any
 
   
 

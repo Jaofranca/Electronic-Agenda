@@ -3,6 +3,8 @@ import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/add_conta
 import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/get_contact_usecase.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../Domain/usecases/contact/delete_contact_usecase.dart';
+
 part 'home_screen_controller.g.dart';
 
 class HomeScreenController = _HomeScreenControllerBase
@@ -11,7 +13,10 @@ class HomeScreenController = _HomeScreenControllerBase
 abstract class _HomeScreenControllerBase with Store {
   final AddContactUseCase _addContactUseCase;
   final GetContactsUseCase _getContactsUseCase;
-  _HomeScreenControllerBase(this._addContactUseCase, this._getContactsUseCase);
+  final DeleteContactUseCase _deleteContactUseCase;
+
+  _HomeScreenControllerBase(this._addContactUseCase, this._getContactsUseCase,
+      this._deleteContactUseCase);
 
   @observable
   List<Contact> contacts = [];
@@ -32,6 +37,14 @@ abstract class _HomeScreenControllerBase with Store {
   @action
   Future<void> addContact(Contact contact) async {
     final usecase = await _addContactUseCase.call(contact);
+    return usecase.fold((failure) => throw failure, (result) {
+      getContacts();
+    });
+  }
+
+  @action
+  Future<void> deleteContact(Contact contact) async {
+    final usecase = await _deleteContactUseCase.call(contact);
     return usecase.fold((failure) => throw failure, (result) {
       getContacts();
     });

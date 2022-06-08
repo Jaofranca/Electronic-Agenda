@@ -1,7 +1,7 @@
 import 'package:agenda_eletronica/Modules/Home/Data/datasources/contact_local_datasource.dart';
 import 'package:agenda_eletronica/Modules/Home/Data/repositoriesImpl/contact_repository_impl.dart';
 import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/add_contact_usecase.dart';
-import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_arguments.dart';
+import 'package:agenda_eletronica/Modules/Home/Domain/usecases/contact/delete_contact_usecase.dart';
 import 'package:agenda_eletronica/Modules/Home/Presentation/pages/add_contact_screen.dart/add_contact_manually_screen.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'Domain/usecases/contact/get_contact_usecase.dart';
@@ -20,13 +20,20 @@ class HomeModule extends Module {
         Bind(
           (i) => GetContactsUseCase(contactRepository: i()),
         ),
-        Bind((i) => HomeScreenController(i(), i())),
+        Bind((i) => DeleteContactUseCase(contactRepository: i())),
+        Bind((i) => HomeScreenController(i(), i(), i())),
       ];
 
   // Provide all the routes for your module
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (_, args) => const HomeScreen()),
+        ChildRoute(
+          '/addContactManually',
+          child: (_, args) => AddContactManuallyScreen(
+            args: args.data,
+          ),
+        ),
         ChildRoute(
           '/addContactManually',
           child: (_, args) => AddContactManuallyScreen(

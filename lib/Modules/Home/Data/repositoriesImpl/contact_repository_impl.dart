@@ -13,7 +13,7 @@ class ContactRepositoryImplementation implements ContactRepository {
     try {
       final result = await localDatasource.addContact(contact);
       return right(result);
-    } on ServerException {
+    } on CacheException {
       return left(ServerFailure());
     }
   }
@@ -23,7 +23,7 @@ class ContactRepositoryImplementation implements ContactRepository {
     try {
       final result = await localDatasource.deleteContact(contact);
       return right(result);
-    } on ServerException {
+    } on CacheException {
       return left(ServerFailure());
     }
   }
@@ -33,17 +33,7 @@ class ContactRepositoryImplementation implements ContactRepository {
     try {
       final result = await localDatasource.getContacts();
       return right(result);
-    } on ServerException {
-      return left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Contact>> modifyContact(Contact contact) async {
-    try {
-      final result = await localDatasource.modifyContact(contact);
-      return right(result);
-    } on ServerException {
+    } on CacheException catch (e) {
       return left(ServerFailure());
     }
   }

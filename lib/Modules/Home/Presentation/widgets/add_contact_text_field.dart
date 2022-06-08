@@ -4,7 +4,8 @@ class AddContactTextField extends StatelessWidget {
   final TextEditingController? textController;
   final String? hintText;
   const AddContactTextField(
-      {required this.textController, required this.hintText});
+      {Key? key, required this.textController, required this.hintText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

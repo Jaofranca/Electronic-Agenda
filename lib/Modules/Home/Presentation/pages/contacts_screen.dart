@@ -3,12 +3,8 @@ import 'package:agenda_eletronica/Modules/Home/Presentation/widgets/contact_widg
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive/hive.dart';
-import '../../Domain/entities/address.dart';
-import '../../Domain/entities/contact.dart';
 import '../controller/home_screen_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
-import '../widgets/add_contact_local.dart';
 
 class ContactsScreen extends StatelessWidget {
   const ContactsScreen({Key? key}) : super(key: key);
@@ -29,15 +25,16 @@ class ContactsScreen extends StatelessWidget {
                 child: ListView.builder(
                   itemBuilder: (context, i) {
                     return ContactWidget(
-                      contact: controller.contacts[i],
-                      onPressed: () {
-                        // Modular.to.pushNamed(
-                        //   '/addContactManually',
-                        //   arguments: AddContactManuallyArguments(
-                        //       controller: controller,
-                        //       contact: controller.contacts[i]))
-                      },
-                    );
+                        contact: controller.contacts[i],
+                        modify: () => Modular.to.pushNamed(
+                              '/addContactManually',
+                              arguments: AddContactManuallyArguments(
+                                controller: controller,
+                                contact: controller.contacts[i],
+                              ),
+                            ),
+                        delete: () =>
+                            controller.deleteContact(controller.contacts[i]));
                   },
                   itemCount: controller.contacts.length,
                 ),

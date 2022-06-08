@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:agenda_eletronica/Modules/Home/Domain/entities/address.dart';
@@ -75,6 +76,7 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // List stuff = image.toByteData().buffer.asUInt8List()
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -90,10 +92,18 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              //TODO: image
-              const CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.red,
+              Material(
+                child: InkWell(
+                  onTap: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? photo =
+                        await picker.pickImage(source: ImageSource.camera);
+                  },
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.red,
+                  ),
+                ),
               ),
 
               AddContactTextField(
@@ -139,10 +149,10 @@ class _AddContactManuallyScreenState extends State<AddContactManuallyScreen> {
                         complemento: complementoController.text,
                       ),
                       reminder: DateTime.now(),
-                      id: uuid.v1());
-                  // modify
-                  //     ? controller.addContact(contact)
-                  //     : controller.addContact(contact);
+                      id: widget.args.contact == null
+                          ? uuid.v1()
+                          : widget.args.contact!.id);
+
                   await widget.args.controller.addContact(pageContact);
                   Modular.to.pop();
                 },
